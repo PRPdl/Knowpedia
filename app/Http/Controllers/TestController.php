@@ -11,6 +11,6 @@ class TestController extends Controller
     function home()
     {
 
-        return Example::handle();
+        return auth()->user();
     }
 }

@@ -3,10 +3,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Example Component</div>
+                    <div class="card-header">Test Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        {{ name }}
                     </div>
                 </div>
             </div>
@@ -16,8 +16,15 @@
 
 <script>
     export default {
+        data() {
+            return {
+                name: 'Pradip',
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            axios.get('/notifications').then(response => {
+                this.name = response.data
+            })
         }
     }
 </script>

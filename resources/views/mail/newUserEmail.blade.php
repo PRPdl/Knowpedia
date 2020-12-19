@@ -1,21 +1,20 @@
 @component('mail::message')
-#A Heading
 
-Welcome to our {{ env('APP_NAME') }}
+Welcome to {{ env('APP_NAME') }}, MR. {{ $name }}
 
-Thing YOu Cna Do Here
+Please read our community guidelines.
 
-- Kill
-- Feast
-- Fuck
-- Eat
+You can use our platform to:
+
+    ↓ Features:
+
+- Read new Articles
+- Post new Articles
+- Participate in Community Discussions
+- Collaborate With Other Members.
 
 @component('mail::button', ['url'=>'https://facebook.com'])
-    Find Us On Facbook
-@endcomponent
-
-@component('mail::button', ['url'=>'https://google.com/signin'])
-    Find Us On Google
+    Find Us On Facebook!
 @endcomponent
 
 @endcomponent

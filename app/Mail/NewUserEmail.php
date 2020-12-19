@@ -11,11 +11,11 @@ class NewUserEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $potato;
+    public $name;
 
-    public function __construct($potato)
+    public function __construct($name)
     {
-        $this->potato = $potato;
+        $this->name = $name;
     }
 
     /**

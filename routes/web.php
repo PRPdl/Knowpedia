@@ -35,6 +35,11 @@ Route::delete('articles/{article}/delete', [ArticleController::class, 'destroy']
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+Route::get('/payment', [\App\Http\Controllers\PaymentController::class, 'show'])->name('payment.show');
+Route::post('/payment', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payment.store');
+
+Route::get('/notifications/unread', [\App\Http\Controllers\NotificationController::class, 'show'])->name('notification.show');
+Route::get('/notifications/unreadCount', [\App\Http\Controllers\NotificationController::class, 'getUnreadCount'])->name('notification.count');
 
 
 

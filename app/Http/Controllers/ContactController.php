@@ -19,7 +19,7 @@ class ContactController extends Controller
         ]);
 
       Mail::to(\request('email'))
-          ->send(new NewUserEmail('potato'));
+          ->send(new NewUserEmail(auth()->user()->name));
 
         return redirect(route('contact.show'))->with('message', 'Email Sent');
 
