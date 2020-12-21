@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\PaymentRecived;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Monolog\Logger;
 
 class PaymentController extends Controller
 {
@@ -15,7 +16,7 @@ class PaymentController extends Controller
 
         return view('payment');
     }
-    public function store() {
+    public function store(User $user) {
 
         //Charge the bank
 
@@ -23,7 +24,7 @@ class PaymentController extends Controller
             return redirect(route('login'));
         }
 
-        \App\Jobs\PaymentProcessed::dispatch(Auth::user());
+        \App\Jobs\PaymentProcessed::dispatch(auth()->user());
 
 
         return redirect(route('payment.show'));

@@ -22,7 +22,6 @@ class ContactController extends Controller
           ->send(new NewUserEmail(auth()->user()->name));
 
         return redirect(route('contact.show'))->with('message', 'Email Sent');
-
-
+        
     }
 }

@@ -36,7 +36,7 @@ class ArticleController extends Controller
 
         $this->validateArticle();
         $article = new $article(request(['title', 'excerpt','body']));
-        $article->user_id = 4;
+        $article->user_id = auth()->user()->id;
         $article->save();
 
         $article->tags()->attach(request('tags'));
@@ -52,8 +52,9 @@ class ArticleController extends Controller
 
     public function update(Article $article) {
 
-       $article->update($this->validateArticle());
-       $article->user_id = 3;
+       $this->validateArticle();
+       $article->update(request(['title', 'excerpt', 'body']));
+       $article->user_id = auth()->user()->id;
        $article->save();
 
        $article->tags()->detach();

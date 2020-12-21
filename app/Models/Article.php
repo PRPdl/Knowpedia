@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\This;
 
 class Article extends Model
 {
@@ -21,6 +22,10 @@ class Article extends Model
 
     public function tags(){
         return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+
+    public function comments(){
+       return $this->hasMany(Comment::class);
     }
 
 }

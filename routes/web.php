@@ -26,13 +26,27 @@ Route::get('/about', function () {
     return view('about', compact('articles'));
 });
 
+Route::middleware(['auth'])->group(function (){
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.post');
+    Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.put');
+    Route::delete('articles/{article}/delete', [ArticleController::class, 'destroy'])->name('articles.delete');
+
+    Route::post('/comment/{article}', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment.post')->middleware('auth');
+    Route::post('/comment/{comment}/liked', [\App\Http\Controllers\CommentController::class, 'markAsBest'])->name('comment.markAsBest')->middleware('auth');
+
+    Route::get('/notifications/unread', [\App\Http\Controllers\NotificationController::class, 'show'])->name('notification.show');
+    Route::get('/notifications/unreadCount', [\App\Http\Controllers\NotificationController::class, 'getUnreadCount'])->name('notification.count');
+
+
+
+});
+
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
-Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create')->middleware('auth');
-Route::post('/articles', [ArticleController::class, 'store'])->name('articles.post')->middleware('auth');
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
-Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit')->middleware('auth');
-Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.put')->middleware('auth');
-Route::delete('articles/{article}/delete', [ArticleController::class, 'destroy'])->name('articles.delete')->middleware('auth');
+
+
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -40,8 +54,6 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/payment', [\App\Http\Controllers\PaymentController::class, 'show'])->name('payment.show');
 Route::post('/payment', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payment.store');
 
-Route::get('/notifications/unread', [\App\Http\Controllers\NotificationController::class, 'show'])->name('notification.show');
-Route::get('/notifications/unreadCount', [\App\Http\Controllers\NotificationController::class, 'getUnreadCount'])->name('notification.count');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

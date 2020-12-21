@@ -42,10 +42,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * @var mixed
+     */
 
 
     public function articles(){
         return $this->hasMany(Article::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 
     public function routeNotificationForNexmo($notification)
@@ -55,6 +62,6 @@ class User extends Authenticatable
 
     public function routeNotificationForSlack($notification)
     {
-        return env('LOG_SLACK_WEBHOOK_URL');
+        return 'https://hooks.slack.com/services/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';
     }
 }
