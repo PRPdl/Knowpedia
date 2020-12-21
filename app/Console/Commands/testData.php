@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class testData extends Command
@@ -41,7 +42,5 @@ class testData extends Command
             'amount' => 2500,
             'type' => 'Bank'
         ];
-
-        dd(auth()->user());
     }
 }

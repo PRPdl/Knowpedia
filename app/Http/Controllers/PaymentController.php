@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Events\PaymentProcessed;
+use App\Models\User;
 use App\Notifications\PaymentRecived;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
     public function show() {
+
         return view('payment');
     }
     public function store() {
+
         //Charge the bank
-
-        $charge = [
-            'amount' => 2500,
-            'type' => 'Bank',
-        ];
-
-        $notification = $charge['amount'] . " has been paid through " . $charge['type'];
 
         if(!auth()->check()){
             return redirect(route('login'));
         }
-        request()->user()->notify(new PaymentRecived($notification));
-        return redirect(route('articles'));
+
+        \App\Jobs\PaymentProcessed::dispatch(Auth::user());
+
+
+        return redirect(route('payment.show'));
     }
 }

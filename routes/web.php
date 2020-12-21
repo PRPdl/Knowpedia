@@ -15,6 +15,8 @@ use App\Http\Controllers\ContactController;
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('home');
 });
@@ -41,13 +43,10 @@ Route::post('/payment', [\App\Http\Controllers\PaymentController::class, 'store'
 Route::get('/notifications/unread', [\App\Http\Controllers\NotificationController::class, 'show'])->name('notification.show');
 Route::get('/notifications/unreadCount', [\App\Http\Controllers\NotificationController::class, 'getUnreadCount'])->name('notification.count');
 
-
-
-Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'home']);
 
 Route::get('pay', [\App\Http\Controllers\PaymentGatewayController::class, 'store']);
+

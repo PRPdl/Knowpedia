@@ -5,16 +5,19 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\NexmoMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use mysql_xdevapi\Exception;
 
 class PaymentRecived extends Notification
 {
     use Queueable;
 
-    protected $notification;
-    public function __construct($notification)
+
+    public function __construct()
     {
-        $this->notification = $notification;
+
     }
 
     /**
@@ -25,7 +28,7 @@ class PaymentRecived extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'slack', 'nexmo'];
     }
 
     /**
@@ -51,8 +54,36 @@ class PaymentRecived extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            $this->notification
-        ];
+        return ["Your Payment has been processed at: " . now()];
+    }
+
+
+
+    public function toSlack($notifiable)
+    {
+        $url = url('/exception/');
+        return (new SlackMessage)
+            ->error()
+            ->from('Mr X System', ':ghost:')
+            ->to('#payment_status')
+            ->content($notifiable->name .'::Payment of 200 paid.')
+            ->attachment(function ($attachment) use($url){
+                $attachment->title('Important: Payment Pending', $url)
+                    ->content('Amount withheld at Commbank.');
+            });
+    }
+
+    public function toNexmo($notifiable){
+        try {
+            return (new NexmoMessage())
+                ->content('Dear'. $notifiable->name. 'Your Payment of $400 received. Thank You');
+        }catch (Exception $e){
+
+        }
+
+    }
+
+    public function errorToSlack(){
+
     }
 }

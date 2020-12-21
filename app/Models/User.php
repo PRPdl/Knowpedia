@@ -33,8 +33,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * 
-     * 
+     *
+     *
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -43,7 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
     public function articles(){
         return $this->hasMany(Article::class);
+    }
+
+    public function routeNotificationForNexmo($notification)
+    {
+        return '61426267158';
+    }
+
+    public function routeNotificationForSlack($notification)
+    {
+        return 'https://hooks.slack.com/services/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';
     }
 }
