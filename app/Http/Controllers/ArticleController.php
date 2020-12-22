@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use http\Client\Curl\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Tag;
@@ -29,10 +31,19 @@ class ArticleController extends Controller
     }
 
     public function create(Tag $tags) {
+
+        try {
+            $this->authorize('create', new Article());
+        } catch (AuthorizationException $e) {
+            return redirect(route('login'));
+        }
+
         return view('articles.create' , ['tags' => $tags->all()]);
     }
 
     public function store(Article $article) {
+
+        $this->authorize('create', $article);
 
         $this->validateArticle();
         $article = new $article(request(['title', 'excerpt','body']));

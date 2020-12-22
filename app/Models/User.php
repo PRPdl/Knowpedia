@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\This;
 
 class User extends Authenticatable
 {
@@ -55,6 +56,18 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function roles(){
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function assignRole($role){
+        $this->roles()->save($role);
+    }
+
+    public function abilities(){
+        return $this->roles->map->abilities->flatten()->pluck('name')->unique();
+    }
+
     public function routeNotificationForNexmo($notification)
     {
         return '61426267158';
@@ -62,6 +75,7 @@ class User extends Authenticatable
 
     public function routeNotificationForSlack($notification)
     {
-        return env('LOG_SLACK_WEBHOOK_URL');
+        return 'https://hooks.slack.com/services/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';
     }
+
 }

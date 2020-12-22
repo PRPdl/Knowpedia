@@ -12,7 +12,7 @@
 
                     <h2>
                         {{$article->title}}
-                        @auth()
+                        @can('edit_article')
                             <a href="{{ route('articles.edit', $article) }}">
                                 <button class="btn btn-link btn-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -24,9 +24,10 @@
                                     </svg>
                                 </button>
                             </a>
+                        @endcan
 
 
-
+                        @can('delete_article')
                             <button type="button" class="btn btn-link btn-sm text-danger" data-toggle="modal"
                                     data-target="#deleteConfirm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -37,33 +38,36 @@
                                           d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                 </svg>
                             </button>
-                        @endauth
+                        @endcan
                     </h2>
-
-                    <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure, you want to delete the article?
-                                </div>
-                                <div class="modal-footer">
-                                    <form action="{{ route('articles.delete', $article) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-primary">Yes</button>
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                                    </form>
+                    @can('delete_article')
+                        <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure, you want to delete the article?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{{ route('articles.delete', $article) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-primary">Yes</button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">No
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
+
                     <span class="byline">{{$article->excerpt}}</span>
                 </div>
                 <p><img src="/images/banner.jpg" alt="" class="image image-full"/></p>
@@ -87,14 +91,14 @@
                                                                                 src="{{ asset('images/user.png') }}"
                                                                                 width="40">
                                         <div class="d-flex flex-column justify-content-start ml-2"><span
-                                                class="d-block font-weight-bold name">{{ $comment->user->name }}</span><span
+                                                class="d-block font-weight-bold name">{{ $comment->getName() }}</span><span
                                                 class="date text-black-50">{{ $comment->updated_at }}</span></div>
                                     </div>
                                     <div class="mt-2">
                                         <p class="comment-text mb-1 font-weight-normal">{{ $comment->comment }}</p>
                                     </div>
                                 </div>
-                                @can('update-article', $article)
+                                @can('mark_comment')
                                     <div class="d-flex flex-row">
 
                                         <form action="{{ route('comment.markAsBest', $comment) }}" method="POST">
@@ -110,15 +114,18 @@
                                 @endcan
                             @endforeach
 
-                            @auth()
-                                <div class="bg-white mt-2">
+
+                            <div class="bg-white mt-2">
+                                @can('comment')
                                     <form action="{{ route('comment.post', $article) }}" method="post">
                                         @csrf
-                                        <div class="bg-light pt-5">
+                                        <div class="bg-light pt-2">
+
+                                            <img class="rounded-circle ml-2 mb-2"
+                                                 src="{{ asset('images/user.png') }}"
+                                                 width="40">
+                                            <strong class="font-weight-bold">{{ auth()->user()->name }}</strong>
                                             <div class="d-flex flex-row align-items-start">
-                                                <img class="rounded-circle"
-                                                     src="{{ asset('images/user.png') }}"
-                                                     width="40">
                                                 <textarea class="form-control ml-1 shadow-none textarea"
                                                           name="comment"
                                                           id="comment" required></textarea>
@@ -131,14 +138,17 @@
                                             </div>
                                         </div>
                                     </form>
-                                    @endauth
-                                </div>
+                                @else
+                                    <button class="btn btn-sn btn-info mt-3">Please Login To Comment</button>
+                                @endcan
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
+    </div>
+
+
 
 @endsection

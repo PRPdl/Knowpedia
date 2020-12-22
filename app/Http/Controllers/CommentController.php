@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function store(Article $article, Comment $comment) {
+
         $comment->user_id = auth()->user()->id;
         $comment->article_id = $article->id;
         $comment->comment = \request('comment');
@@ -18,12 +19,11 @@ class CommentController extends Controller
         return redirect($article->path());
     }
 
-    public function markAsBest(Comment $comment){
+    public function update(Comment $comment){
 
-        $this->authorize('update-article', $comment->article);
+        $this->authorize($comment->article);
 
-        $comment->article->best_reply_id = $comment->id;
-        $comment->article->save();
+        $comment->setBestReply();
 
         return redirect($comment->article->path());
     }

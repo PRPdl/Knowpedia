@@ -17,5 +17,15 @@ class Comment extends Model
     public function article(){
         return $this->belongsTo(Article::class);
     }
+
+    public function setBestReply()
+    {
+        $this->article->best_reply_id = $this->id;
+        $this->article->save();
+    }
+
+    public function getName(){
+        return $this->user->name;
+    }
 }
 
