@@ -10,11 +10,10 @@
 			<div class="title">
 				<h2>
 					<a href="{{ $article->path() }}"> {{$article->title}} </a>
-					
 				</h2>
 				<span class="byline">{{$article->excerpt}}</span>
 			</div>
-			<p><img src="/images/banner.jpg" alt="" class="image image-full" /> </p>
+			<p><img src="https://picsum.photos/200/50" alt="" class="image image-full" /> </p>
 			<hr>
 		</div>
 

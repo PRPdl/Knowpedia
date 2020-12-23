@@ -6,7 +6,7 @@
 @section('content')
 
     <div id="wrapper">
-        <div id="page" class="container1 row">
+        <div id="page" class="d-flex flex-column container1">
             <div id="content">
                 <div class="title">
 
@@ -68,9 +68,9 @@
                         </div>
                     @endcan
 
-                    <span class="byline">{{$article->excerpt}}</span>
+                    <span class="byline">{{$article->excerpt}} - By {{ $article->user->name }}</span>
                 </div>
-                <p><img src="/images/banner.jpg" alt="" class="image image-full"/></p>
+                <p><img src="https://picsum.photos/200/50" alt="" class="image image-full"/></p>
                 <p>{{ $article->body }}</p>
                 @foreach($article->tags->pluck('tag') as $tag)
                     <a href="{{ route('articles', ['tag' => $tag]) }}"> <span
@@ -78,11 +78,9 @@
                 @endforeach
             </div>
 
-            <hr>
-
-            <div class="comment-container mt-5">
+            <div class="comment-container mt-2 border-top">
                 <div class="d-flex row">
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="d-flex flex-column comment-section">
                             @foreach($article->comments as $comment)
                                 <hr>

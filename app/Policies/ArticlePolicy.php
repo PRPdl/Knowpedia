@@ -14,7 +14,8 @@ class ArticlePolicy
 
     public function create(User $user, Article $article)
     {
-        return $user->is(auth()->user());
+
+        return true;
     }
 
     public function update(User $user, Article $article)

@@ -32,18 +32,14 @@ class ArticleController extends Controller
 
     public function create(Tag $tags) {
 
-        try {
-            $this->authorize('create', new Article());
-        } catch (AuthorizationException $e) {
-            return redirect(route('login'));
-        }
+            $this->authorize('add_article');
 
         return view('articles.create' , ['tags' => $tags->all()]);
     }
 
     public function store(Article $article) {
 
-        $this->authorize('create', $article);
+        $this->authorize('add_article');
 
         $this->validateArticle();
         $article = new $article(request(['title', 'excerpt','body']));

@@ -61,7 +61,7 @@ class User extends Authenticatable
     }
 
     public function assignRole($role){
-        $this->roles()->save($role);
+        $this->roles()->sync($role);
     }
 
     public function abilities(){

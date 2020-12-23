@@ -65,7 +65,7 @@
 @yield('content')
 
 <div id="copyright" class="container">
-	<p>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Photograph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+	<p>&copy; AusLand. All rights reserved. | Photos by <a target="_blank" rel="noopener noreferrer" href="https://picsum.photos/">Lorem Picsum</a> | Design by <a href="#" rel="nofollow">Knowpedia</a>.</p>
 </div>
 
 </body>

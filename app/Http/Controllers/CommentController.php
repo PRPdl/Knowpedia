@@ -21,7 +21,7 @@ class CommentController extends Controller
 
     public function update(Comment $comment){
 
-        $this->authorize($comment->article);
+        $this->authorize('mark_comment');
 
         $comment->setBestReply();
 
