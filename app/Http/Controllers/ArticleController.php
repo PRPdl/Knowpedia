@@ -59,6 +59,8 @@ class ArticleController extends Controller
 
     public function update(Article $article) {
 
+        $this->authorize('delete_article');
+
        $this->validateArticle();
        $article->update(request(['title', 'excerpt', 'body']));
        $article->user_id = auth()->user()->id;

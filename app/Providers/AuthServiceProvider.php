@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -30,6 +32,10 @@ class AuthServiceProvider extends ServiceProvider
             if($user->abilities()->contains($abilities)){
                 return true;
             }
+        });
+
+        Gate::define('edit_article', function (User $user, Article $article){
+           return $article->user->is($user);
         });
     }
 }

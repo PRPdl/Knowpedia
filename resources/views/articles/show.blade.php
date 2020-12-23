@@ -12,7 +12,7 @@
 
                     <h2>
                         {{$article->title}}
-                        @can('edit_article')
+                        @can('edit_article', $article)
                             <a href="{{ route('articles.edit', $article) }}">
                                 <button class="btn btn-link btn-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
